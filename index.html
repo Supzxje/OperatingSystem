@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPU Scheduling Algorithms Visualization</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>CPU Scheduling Algorithms Visualization</h1>
+    
+    <div class="grid">
+      <div class="card">
+        <h2>Process Information</h2>
+        <div class="table-container">
+          <table id="processTable">
+            <thead>
+              <tr>
+                <th>Process</th>
+                <th>Arrival Time</th>
+                <th>Burst Time</th>
+                <th>Priority</th>
+                <th>Color</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="processTableBody">
+              <!-- Process rows will be added here -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="form-container">
+          <h3>Add New Process</h3>
+          <form id="processForm">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="arrivalTime">Arrival Time</label>
+                <input type="number" id="arrivalTime" min="0" value="0" required>
+              </div>
+              <div class="form-group">
+                <label for="burstTime">Burst Time</label>
+                <input type="number" id="burstTime" min="1" value="1" required>
+              </div>
+              <div class="form-group">
+                <label for="priority">Priority</label>
+                <input type="number" id="priority" min="1" value="1" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Process</button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="card algorithm-card">
+        <h2>Algorithm Selection</h2>
+        <div class="algorithm-selection">
+          <div class="radio-group">
+            <div class="radio-item">
+              <input type="radio" id="fcfs" name="algorithm" value="fcfs" checked>
+              <label for="fcfs">First-Come, First-Served (FCFS)</label>
+            </div>
+            <div class="radio-item">
+              <input type="radio" id="sjf" name="algorithm" value="sjf">
+              <label for="sjf">Shortest Job First (SJF)</label>
+            </div>
+            <div class="radio-item">
+              <input type="radio" id="priority" name="algorithm" value="priority">
+              <label for="priority">Priority Scheduling</label>
+            </div>
+            <div class="radio-item">
+              <input type="radio" id="roundRobin" name="algorithm" value="roundRobin">
+              <label for="roundRobin">Round Robin</label>
+            </div>
+          </div>
+          
+          <div id="timeQuantumContainer" class="form-group hidden">
+            <label for="timeQuantum">Time Quantum</label>
+            <input type="number" id="timeQuantum" min="1" value="2" required>
+          </div>
+          
+          <button id="runAlgorithm" class="btn btn-primary">Run Algorithm</button>
+        </div>
+        
+        <div class="algorithm-description">
+          <h3>Algorithm Description</h3>
+          <p id="algorithmDescription">
+            First-Come, First-Served (FCFS) executes processes in the order they arrive in the ready queue.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div id="ganttChartContainer" class="card hidden">
+      <h2>Gantt Chart</h2>
+      <div class="canvas-container">
+        <canvas id="ganttChart" width="1000" height="120"></canvas>
+      </div>
+    </div>
+    
+    <div id="resultsContainer" class="card hidden">
+      <h2>Results</h2>
+      <div class="table-container">
+        <table id="resultsTable">
+          <thead>
+            <tr>
+              <th>Process</th>
+              <th>Arrival Time</th>
+              <th>Burst Time</th>
+              <th>Start Time</th>
+              <th>Completion Time</th>
+              <th>Turnaround Time</th>
+              <th>Waiting Time</th>
+            </tr>
+          </thead>
+          <tbody id="resultsTableBody">
+            <!-- Results rows will be added here -->
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <h3>Average Waiting Time</h3>
+          <p id="avgWaitingTime" class="metric-value">0.00</p>
+        </div>
+        <div class="metric-card">
+          <h3>Average Turnaround Time</h3>
+          <p id="avgTurnaroundTime" class="metric-value">0.00</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
