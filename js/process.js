@@ -1,4 +1,4 @@
-// Process class to represent a process
+// Class tiến trình
 class Process {
   constructor(id, arrivalTime, burstTime, priority) {
     this.id = id;
@@ -13,7 +13,7 @@ class Process {
     this.turnaroundTime = 0;
   }
 
-  // Generate a random color for the process
+  // Tạo màu ngẫu nhiên 
   generateColor() {
     const colors = [
       '#4f46e5', // Indigo
