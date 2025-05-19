@@ -4,10 +4,10 @@ import { runSJF } from './algorithms/sjf.js';
 import { runPriority } from './algorithms/priority.js';
 import { runRoundRobin } from './algorithms/roundRobin.js';
 
-// Main application class
 class CPUSchedulingApp {
   constructor() {
     this.processes = [
+      // Tạo các tiến trình mặc định
       new Process(1, 0, 5, 2),
       new Process(2, 1, 3, 1),
       new Process(3, 2, 8, 4),
@@ -24,20 +24,19 @@ class CPUSchedulingApp {
     this.updateAlgorithmDescription();
   }
 
-  // Initialize event listeners
   initEventListeners() {
-    // Form submission for adding new process
+    // Form submit để add thêm process
     document.getElementById('processForm').addEventListener('submit', (e) => {
       e.preventDefault();
       this.addProcess();
     });
 
-    // Run algorithm button
+    // Button chạy thuật toán
     document.getElementById('runAlgorithm').addEventListener('click', () => {
       this.runAlgorithm();
     });
 
-    // Algorithm selection change
+    // Thay đổi thuật toán
     const algorithmRadios = document.querySelectorAll('input[name="algorithm"]');
     algorithmRadios.forEach(radio => {
       radio.addEventListener('change', () => {
@@ -47,7 +46,7 @@ class CPUSchedulingApp {
       });
     });
 
-    // Time quantum change
+    // Thay đổi quantum time của RR
     document.getElementById('timeQuantum').addEventListener('change', (e) => {
       this.timeQuantum = parseInt(e.target.value) || 2;
       if (this.selectedAlgorithm === 'roundRobin') {
@@ -56,17 +55,18 @@ class CPUSchedulingApp {
     });
   }
 
-  // Toggle time quantum input visibility
+  // Bật tắt Quantum time
   toggleTimeQuantum() {
     const timeQuantumContainer = document.getElementById('timeQuantumContainer');
     if (this.selectedAlgorithm === 'roundRobin') {
+      // Chỉ khi tt là RR thì hiện
       timeQuantumContainer.classList.remove('hidden');
     } else {
       timeQuantumContainer.classList.add('hidden');
     }
   }
 
-  // Update algorithm description based on selection
+  // Update mô tả về thuật toán
   updateAlgorithmDescription() {
     const descriptionElement = document.getElementById('algorithmDescription');
     
@@ -86,17 +86,20 @@ class CPUSchedulingApp {
     }
   }
 
-  // Add a new process
+  // Thêm tiến trình mới
   addProcess() {
+    // Lấy dữ liệu từ form
     const arrivalTime = parseInt(document.getElementById('arrivalTime').value) || 0;
     const burstTime = parseInt(document.getElementById('burstTime').value) || 1;
     const priority = parseInt(document.getElementById('priority').value) || 1;
 
+    // Nếu brust time < 0 alert
     if (burstTime <= 0) {
       alert('Burst time must be greater than 0');
       return;
     }
 
+    // Tự động tăng stt của tiến trình 
     const newId = this.processes.length > 0 
       ? Math.max(...this.processes.map(p => p.id)) + 1 
       : 1;
@@ -109,13 +112,13 @@ class CPUSchedulingApp {
     document.getElementById('burstTime').value = 1;
     document.getElementById('priority').value = 1;
 
-    // Run algorithm if we have processes
+    // Chạy thuật toán nếu có tiến trình
     if (this.processes.length > 0) {
       this.runAlgorithm();
     }
   }
 
-  // Remove a process
+  // Xóa 1 tiến trình
   removeProcess(id) {
     this.processes = this.processes.filter(p => p.id !== id);
     this.renderProcessTable();
@@ -128,7 +131,7 @@ class CPUSchedulingApp {
     }
   }
 
-  // Render the process table
+  // Vẽ bảng tiến trình
   renderProcessTable() {
     const tableBody = document.getElementById('processTableBody');
     tableBody.innerHTML = '';
@@ -160,7 +163,7 @@ class CPUSchedulingApp {
     });
   }
 
-  // Run the selected algorithm
+  // Chạy thuật toán
   runAlgorithm() {
     if (this.processes.length === 0) return;
 
@@ -189,12 +192,12 @@ class CPUSchedulingApp {
     this.renderResults();
     this.renderGanttChart();
 
-    // Show results and Gantt chart containers
+    // Chạy bảng kết quả
     document.getElementById('ganttChartContainer').classList.remove('hidden');
     document.getElementById('resultsContainer').classList.remove('hidden');
   }
 
-  // Render the results table
+  // Vẽ bảng kết quả
   renderResults() {
     const tableBody = document.getElementById('resultsTableBody');
     tableBody.innerHTML = '';
@@ -213,7 +216,7 @@ class CPUSchedulingApp {
       tableBody.appendChild(row);
     });
 
-    // Calculate and display averages
+    // Tính thời gian
     const avgWaitingTime = this.results.reduce((sum, process) => sum + process.waitingTime, 0) / this.results.length;
     const avgTurnaroundTime = this.results.reduce((sum, process) => sum + process.turnaroundTime, 0) / this.results.length;
 
@@ -221,7 +224,7 @@ class CPUSchedulingApp {
     document.getElementById('avgTurnaroundTime').textContent = avgTurnaroundTime.toFixed(2);
   }
 
-  // Render the Gantt chart
+  // Vẽ sơ đồ gantt
   renderGanttChart() {
     const canvas = document.getElementById('ganttChart');
     const ctx = canvas.getContext('2d');
@@ -229,24 +232,21 @@ class CPUSchedulingApp {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Find the end time of the last process
+    // Tìm thời gian kết thúc của tiến trình cuối
     const endTime = Math.max(...this.ganttChart.map(item => item.endTime));
 
-    // Calculate scale factor
-    const chartWidth = canvas.width - 60; // Leave space for labels
+    // Tính toán tỉ lệ
+    const chartWidth = canvas.width - 60; // chừa khoảng trống cho label
     const scaleFactor = chartWidth / endTime;
-
-    // Chart dimensions
     const chartHeight = 60;
     const chartY = 30;
 
-    // Draw timeline
+    // Vẽ timeline
     ctx.beginPath();
     ctx.moveTo(30, chartY + chartHeight + 10);
     ctx.lineTo(30 + chartWidth, chartY + chartHeight + 10);
     ctx.stroke();
 
-    // Draw time markers
     ctx.textAlign = 'center';
     ctx.font = '12px Arial';
     ctx.fillStyle = '#000';
@@ -260,7 +260,7 @@ class CPUSchedulingApp {
       ctx.fillText(t.toString(), x, chartY + chartHeight + 30);
     }
 
-    // Draw Gantt chart blocks
+    // Vẽ Gantt block
     this.ganttChart.forEach(item => {
       const process = this.processes.find(p => p.id === item.processId);
       if (!process) return;
@@ -297,7 +297,6 @@ class CPUSchedulingApp {
   }
 }
 
-// Initialize the application when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   new CPUSchedulingApp();
 });
