@@ -59,7 +59,7 @@ class CPUSchedulingApp {
   toggleTimeQuantum() {
     const timeQuantumContainer = document.getElementById('timeQuantumContainer');
     if (this.selectedAlgorithm === 'roundRobin') {
-      // Chỉ khi tt là RR thì hiện
+      // Chỉ khi thuật toán là RR thì hiện
       timeQuantumContainer.classList.remove('hidden');
     } else {
       timeQuantumContainer.classList.add('hidden');
@@ -72,16 +72,16 @@ class CPUSchedulingApp {
     
     switch (this.selectedAlgorithm) {
       case 'fcfs':
-        descriptionElement.textContent = 'First-Come, First-Served (FCFS) executes processes in the order they arrive in the ready queue.';
+        descriptionElement.textContent = 'Thuật toán FCFS (First Come First Served) là một trong những thuật toán lập lịch đơn giản nhất, hoạt động theo nguyên tắc "đến trước, phục vụ trước.';
         break;
       case 'sjf':
-        descriptionElement.textContent = 'Shortest Job First (SJF) selects the process with the smallest burst time to execute next.';
+        descriptionElement.textContent = 'Thuật toán SJF (Shortest Job First) chọn tiến trình có thời gian thực thi ngắn nhất để chạy tiếp theo.';
         break;
       case 'priority':
-        descriptionElement.textContent = 'Priority Scheduling selects the process with the highest priority (lowest priority number) to execute next.';
+        descriptionElement.textContent = 'Thuật toán Ưu tiên chọn tiến trình có độ ưu tiên cao nhất (số ưu tiên nhỏ nhất) để thực thi tiếp theo.';
         break;
       case 'roundRobin':
-        descriptionElement.textContent = 'Round Robin gives each process a small unit of CPU time (time quantum), cycling through all processes.';
+        descriptionElement.textContent = 'Thuật toán Round Robin cấp cho mỗi tiến trình một khoảng thời gian nhỏ (time quantum) và luân phiên xử lý các tiến trình.';
         break;
     }
   }
@@ -111,11 +111,6 @@ class CPUSchedulingApp {
     document.getElementById('arrivalTime').value = 0;
     document.getElementById('burstTime').value = 1;
     document.getElementById('priority').value = 1;
-
-    // Chạy thuật toán nếu có tiến trình
-    if (this.processes.length > 0) {
-      this.runAlgorithm();
-    }
   }
 
   // Xóa 1 tiến trình
