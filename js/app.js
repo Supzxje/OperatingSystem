@@ -27,7 +27,7 @@ class CPUSchedulingApp {
   initEventListeners() {
     // Form submit để add thêm process
     document.getElementById('processForm').addEventListener('submit', (e) => {
-      e.preventDefault();
+      e.preventDefault(); // Ngăn reload trang
       this.addProcess();
     });
 
@@ -45,6 +45,11 @@ class CPUSchedulingApp {
         this.toggleTimeQuantum();
       });
     });
+
+    // document.getElementById('resetButton').addEventListener('click', () => {
+    //   this.processes = [];
+    //   this.renderProcessTable();
+    // });
 
     // Thay đổi quantum time của RR
     document.getElementById('timeQuantum').addEventListener('change', (e) => {
@@ -69,7 +74,7 @@ class CPUSchedulingApp {
   // Update mô tả về thuật toán
   updateAlgorithmDescription() {
     const descriptionElement = document.getElementById('algorithmDescription');
-    
+
     switch (this.selectedAlgorithm) {
       case 'fcfs':
         descriptionElement.textContent = 'Thuật toán FCFS (First Come First Served) là một trong những thuật toán lập lịch đơn giản nhất, hoạt động theo nguyên tắc "đến trước, phục vụ trước.';
@@ -100,8 +105,8 @@ class CPUSchedulingApp {
     }
 
     // Tự động tăng stt của tiến trình 
-    const newId = this.processes.length > 0 
-      ? Math.max(...this.processes.map(p => p.id)) + 1 
+    const newId = this.processes.length > 0
+      ? Math.max(...this.processes.map(p => p.id)) + 1
       : 1;
 
     this.processes.push(new Process(newId, arrivalTime, burstTime, priority));
@@ -111,13 +116,18 @@ class CPUSchedulingApp {
     document.getElementById('arrivalTime').value = 0;
     document.getElementById('burstTime').value = 1;
     document.getElementById('priority').value = 1;
+
+    // Tu dong chay lai tt neu them 1 process
+    if(this.processes.length > 0){
+      this.runAlgorithm();
+    }
   }
 
   // Xóa 1 tiến trình
   removeProcess(id) {
     this.processes = this.processes.filter(p => p.id !== id);
     this.renderProcessTable();
-    
+
     if (this.processes.length > 0) {
       this.runAlgorithm();
     } else {
@@ -129,7 +139,7 @@ class CPUSchedulingApp {
   // Vẽ bảng tiến trình
   renderProcessTable() {
     const tableBody = document.getElementById('processTableBody');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = ''; // xóa nội dung cũ
 
     if (this.processes.length === 0) {
       const row = document.createElement('tr');
@@ -138,6 +148,7 @@ class CPUSchedulingApp {
       return;
     }
 
+    // Duyệt qua từng tiến trình và thêm vào bản
     this.processes.forEach(process => {
       const row = document.createElement('tr');
       row.innerHTML = `
@@ -232,46 +243,47 @@ class CPUSchedulingApp {
 
     // Tính toán tỉ lệ
     const chartWidth = canvas.width - 60; // chừa khoảng trống cho label
-    const scaleFactor = chartWidth / endTime;
+    const scaleFactor = chartWidth / endTime; // Đổi tg sang px
     const chartHeight = 60;
     const chartY = 30;
 
     // Vẽ timeline
-    ctx.beginPath();
-    ctx.moveTo(30, chartY + chartHeight + 10);
-    ctx.lineTo(30 + chartWidth, chartY + chartHeight + 10);
-    ctx.stroke();
+    // ctx.beginPath();
+    // ctx.moveTo(30, chartY + chartHeight + 10);
+    // ctx.lineTo(30 + chartWidth, chartY + chartHeight + 10);
+    // ctx.stroke();
 
-    ctx.textAlign = 'center';
-    ctx.font = '12px Arial';
-    ctx.fillStyle = '#000';
+    // ctx.textAlign = 'center';
+    // ctx.font = '12px Arial';
+    // ctx.fillStyle = '#000';
 
-    for (let t = 0; t <= endTime; t += Math.ceil(endTime / 10)) {
-      const x = 30 + t * scaleFactor;
-      ctx.beginPath();
-      ctx.moveTo(x, chartY + chartHeight + 5);
-      ctx.lineTo(x, chartY + chartHeight + 15);
-      ctx.stroke();
-      ctx.fillText(t.toString(), x, chartY + chartHeight + 30);
-    }
+    // for (let t = 0; t <= endTime; t += Math.ceil(endTime / 10)) {
+    //   const x = 30 + t * scaleFactor;
+    //   ctx.beginPath();
+    //   ctx.moveTo(x, chartY + chartHeight + 5);
+    //   ctx.lineTo(x, chartY + chartHeight + 15);
+    //   ctx.stroke();
+    //   ctx.fillText(t.toString(), x, chartY + chartHeight + 30);
+    // }
 
     // Vẽ Gantt block
     this.ganttChart.forEach(item => {
       const process = this.processes.find(p => p.id === item.processId);
       if (!process) return;
 
+      // Tính toán vị trí và kích thước ô
       const x = 30 + item.startTime * scaleFactor;
       const width = (item.endTime - item.startTime) * scaleFactor;
 
-      // Draw block
+      // vẽ ô màu
       ctx.fillStyle = process.color;
       ctx.fillRect(x, chartY, width, chartHeight);
 
-      // Draw border
+      // vẽ viền
       ctx.strokeStyle = '#000';
       ctx.strokeRect(x, chartY, width, chartHeight);
 
-      // Draw process ID
+      // Hiển thị tên tiến trình
       ctx.fillStyle = '#fff';
       ctx.font = 'bold 14px Arial';
       ctx.textAlign = 'center';
@@ -283,6 +295,7 @@ class CPUSchedulingApp {
       ctx.font = '12px Arial';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
+      
       ctx.fillText(item.startTime.toString(), x, chartY - 20);
 
       if (item === this.ganttChart[this.ganttChart.length - 1]) {
