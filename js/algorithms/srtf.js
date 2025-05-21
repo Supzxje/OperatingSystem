@@ -1,4 +1,4 @@
-runSRTF() {
+export function runSRTF(processes) {
     // Tạo bản sao sâu của danh sách tiến trình và thêm thuộc tính remainingTime
     const processesCopy = JSON.parse(JSON.stringify(this.processes)).map(p => ({
         ...p,
@@ -63,4 +63,19 @@ runSRTF() {
         processes: this.calculateTimes(resultProcesses),
         ganttChart
     };
+}
+
+function calculateTimes(processes) {
+  return processes.map(process => {
+    if (process.completionTime === undefined) return process;
+
+    const turnaroundTime = process.completionTime - process.arrivalTime;
+    const waitingTime = turnaroundTime - process.burstTime;
+
+    return {
+      ...process,
+      turnaroundTime,
+      waitingTime
+    };
+  });
 }

@@ -89,8 +89,8 @@ class CPUSchedulingApp {
       case 'roundRobin':
         descriptionElement.textContent = 'Thuật toán Round Robin cấp cho mỗi tiến trình một khoảng thời gian nhỏ (time quantum) và luân phiên xử lý các tiến trình.';
         break;
-        case 'srtf':
-        descriptionElement.textContent = 'Shortest remaining time first(srtf) hay có tên gọi khác là Shortest remaining time, là một phương pháp lập lịch là phiên bản ưu tiên của việc lập lịch tiếp theo cho công việc có thời gian ngắn nhất.';
+      case 'srtf':
+        descriptionElement.textContent = 'Shortest remaining time first (SRTF) là một phương pháp lập lịch là phiên bản ưu tiên của việc lập lịch tiếp theo cho công việc có thời gian ngắn nhất.';
         break;
     }
   }

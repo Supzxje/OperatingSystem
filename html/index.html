@@ -3,26 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CPU Scheduling Algorithms Visualization</title>
+  <title>Minh họa giải thuật phân phối CPU</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
   <div class="container">
-    <h1>CPU Scheduling Algorithms Visualization</h1>
+    <h1>Minh họa giải thuật phân phối CPU</h1>
     
     <div class="grid">
       <div class="card">
-        <h2>Process Information</h2>
+        <h2>Thông tin tiến trình</h2>
         <div class="table-container">
           <table id="processTable">
             <thead>
               <tr>
-                <th>Process</th>
-                <th>Arrival Time</th>
-                <th>Burst Time</th>
-                <th>Priority</th>
-                <th>Color</th>
-                <th>Action</th>
+                <th>Tiến trình</th>
+                <th>Thời gian đến</th>
+                <th>Thời gian CPU</th>
+                <th>Độ ưu tiên</th>
+                <th>Màu</th>
+                <th>Thao tác</th>
               </tr>
             </thead>
             <tbody id="processTableBody">
@@ -31,29 +31,29 @@
         </div>
         
         <div class="form-container">
-          <h3>Add New Process</h3>
+          <h3>Thêm tiến trình</h3>
           <form id="processForm">
             <div class="form-grid">
               <div class="form-group">
-                <label for="arrivalTime">Arrival Time</label>
+                <label for="arrivalTime">Thời gian đến</label>
                 <input type="number" id="arrivalTime" min="0" value="0" required>
               </div>
               <div class="form-group">
-                <label for="burstTime">Burst Time</label>
+                <label for="burstTime">Thời gian CPU</label>
                 <input type="number" id="burstTime" min="1" value="1" required>
               </div>
               <div class="form-group">
-                <label for="priority">Priority</label>
+                <label for="priority">Độ ưu tiên</label>
                 <input type="number" id="priority" min="1" value="1" required>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary">Add Process</button>
+            <button type="submit" class="btn btn-primary">Thêm tiến trình</button>
           </form>
         </div>
       </div>
       
       <div class="card algorithm-card">
-        <h2>Algorithm Selection</h2>
+        <h2>Lựa chọn giải thuật</h2>
         <div class="algorithm-selection">
           <div class="radio-group">
             <div class="radio-item">
@@ -68,10 +68,12 @@
               <input type="radio" id="priority" name="algorithm" value="priority">
               <label for="priority">Priority Scheduling</label>
             </div>
+
             <div class="radio-item">
               <input type="radio" id="srtf" name="algorithm" value="srtf">
               <label for="srtf">Shortest Remaining Time First (SRTF)</label>
             </div>
+
             <div class="radio-item">
               <input type="radio" id="roundRobin" name="algorithm" value="roundRobin">
               <label for="roundRobin">Round Robin</label>
@@ -79,15 +81,15 @@
           </div>
           
           <div id="timeQuantumContainer" class="form-group hidden">
-            <label for="timeQuantum">Time Quantum</label>
+            <label for="timeQuantum">Quantum Time</label>
             <input type="number" id="timeQuantum" min="1" value="2" required>
           </div>
           
-          <button id="runAlgorithm" class="btn btn-primary">Run Algorithm</button>
+          <button id="runAlgorithm" class="btn btn-primary">RUN</button>
         </div>
         
         <div class="algorithm-description">
-          <h3>Algorithm Description</h3>
+          <h3>Giới thiệu</h3>
           <p id="algorithmDescription">
           </p>
         </div>
