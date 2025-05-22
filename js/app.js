@@ -239,7 +239,9 @@ class CPUSchedulingApp {
 
   // Vẽ sơ đồ gantt
   renderGanttChart() {
+    // lay du lieu tu canvas trong html
     const canvas = document.getElementById('ganttChart');
+    // su dung 2d context de ve
     const ctx = canvas.getContext('2d');
 
     // Clear canvas
@@ -274,6 +276,7 @@ class CPUSchedulingApp {
     // }
 
     // Vẽ Gantt block
+    // duyet qua mang ganttChart 
     this.ganttChart.forEach(item => {
       const process = this.processes.find(p => p.id === item.processId);
       if (!process) return;
@@ -297,12 +300,11 @@ class CPUSchedulingApp {
       ctx.textBaseline = 'middle';
       ctx.fillText(`P${process.id}`, x + width / 2, chartY + chartHeight / 2);
 
-      // Draw time labels
+      // Ve thanh thoi gian
       ctx.fillStyle = '#000';
       ctx.font = '12px Arial';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      
       ctx.fillText(item.startTime.toString(), x, chartY - 20);
 
       if (item === this.ganttChart[this.ganttChart.length - 1]) {

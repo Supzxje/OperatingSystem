@@ -211,7 +211,6 @@ input[type="text"] {
   display: inline-block;
 }
 
-/* Utility classes */
 .hidden {
   display: none;
 }
