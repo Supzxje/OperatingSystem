@@ -1,6 +1,6 @@
 export function runSRTF(processes) {
     // Tạo bản sao sâu của danh sách tiến trình và thêm thuộc tính remainingTime
-    const processesCopy = JSON.parse(JSON.stringify(this.processes)).map(p => ({
+    const processesCopy = JSON.parse(JSON.stringify(processes)).map(p => ({
         ...p,
         remainingTime: p.burstTime
     }));
@@ -60,7 +60,7 @@ export function runSRTF(processes) {
 
     // Trả về danh sách tiến trình đã tính toán và biểu đồ Gantt
     return {
-        processes: this.calculateTimes(resultProcesses),
+        processes: calculateTimes(resultProcesses),
         ganttChart
     };
 }
